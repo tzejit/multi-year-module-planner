@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Module Planner</title>
+    </head>
+    <body>
+      <form action="{% url 'mods:index' %}" method="post">
+        {% csrf_token %}
+        <input type = "number" name = "count" min = "1" max = "10">
+        <input type="submit">
+      </form>
+    </body>
+</html>

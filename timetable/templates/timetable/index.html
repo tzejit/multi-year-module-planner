@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Timetable</title>
+        <style>
+          form {
+            display: inline-block; 
+          }
+        </style>
+    </head>
+    <body>
+      {% if repeat %}
+        Mod is repeated
+      {% endif %}
+      {% if prereq %}
+        {{type}} {{md}} not fulfilled
+      {% endif %}
+      {% if del %}
+        {{nm}} is a prereq of {{mod}}
+      {% endif %}
+      <h1>Graduation Requirements</h1>
+      {% for i in req%}
+      {% if i not in modstaken %}
+      {{i}}
+      <form action="{% url 'mods:index' %}" method="post">
+        {% csrf_token %}
+        <button type='submit' name='rmreq' value= "{{i}}"> Remove </button>
+      </form>
+      <br>
+      {% else %}
+      {{i}} is taken <br>
+      {% endif %}
+      {% endfor %}
+      <form action="{% url 'mods:index' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="hidden" name = "addreq" value="true">
+        <input type="submit">
+      </form>
+      {% for i in range %}
+      <h1>Semester {{num.count}}</h1>
+          {% for m in i %}
+            {{m.code}}
+            <form action="{% url 'mods:index' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name = "snum" value = "{{num.count}}">
+              <button type='submit' name='rmbtn' value= "{{ m }}"> Remove </button>
+            </form>
+            <br>
+          {% endfor %}
+        <form action="{% url 'mods:index' %}" method="post">
+          {% csrf_token %}
+          {{ form }}
+          <input type="hidden" name = "snum" value = "{{num.count}}">
+          <input type="submit">
+        </form>
+      {{ num.inc }}
+      {% endfor %}
+    </body>
+</html>
