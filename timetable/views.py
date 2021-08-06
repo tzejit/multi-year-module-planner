@@ -89,12 +89,12 @@ class Module(models.Model):
 
 MOD_LIST = []
 def index(request):
-  ALL_MODS_TAKEN = request.session["ALL_MODS_TAKEN"]
-  MOD_PRMODS = request.session["MOD_PRMODS"]
-  MOD_ISPR = request.session["MOD_ISPR"]
   global MOD_PREREQ
   modarr = []
-  if request.method == "POST":  
+  if request.method == "POST":
+    ALL_MODS_TAKEN = request.session["ALL_MODS_TAKEN"]
+    MOD_PRMODS = request.session["MOD_PRMODS"]
+    MOD_ISPR = request.session["MOD_ISPR"]  
     if request.POST.get("count"): # count is num of sems planning for
       i = request.POST.get("count")
       request.session["req"] = []
@@ -225,7 +225,7 @@ def index(request):
       "form": ModForm(),        
       "num": Counter(),
       "req" : request.session["req"],
-      "modstaken" : ALL_MODS_TAKEN
+      "modstaken" : request.session["ALL_MODS_TAKEN"]
       })
 
 class ModForm(forms.Form):
