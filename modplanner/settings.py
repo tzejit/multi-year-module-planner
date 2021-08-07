@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '5d@3wt9l14!fo-vxy47cv*fpv8lz5k6hpw_j)hd7q034u8wi##'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['multi-year-module-planner.herokuapp.com', '127.0.0.1']
 SESSION_COOKIE_SECURE = True
@@ -126,3 +126,42 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s [%(process)d] [%(levelname)s] '
+                       'pathname=%(pathname)s lineno=%(lineno)s '
+                       'funcname=%(funcName)s %(message)s'),
+            'datefmt': '%Y-%m-%d %H:%M:%S'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        }
+    },
+    'handlers': {
+        'null': {
+            'level': 'DEBUG',
+            'class': 'logging.NullHandler',
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    }
+}
